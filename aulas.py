@@ -41,6 +41,9 @@ def adicionar_alunos(aula_id, aluno_id):
     con = connect_db()
     try:
         cursor = con.cursor()
+        print(cursor.execute("PRAGMA database_list").fetchall())
+        print(cursor.execute("SELECT id FROM aulas WHERE id = ?", (aula_id,)).fetchall())
+        print(cursor.execute("SELECT id FROM alunos WHERE id = ?", (aluno_id,)).fetchall())
         cursor.execute("INSERT INTO aula_aluno (aula_id, aluno_id) VALUES (?, ?)", (aula_id, aluno_id))
         con.commit()
     finally:

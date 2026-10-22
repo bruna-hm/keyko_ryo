@@ -27,13 +27,13 @@ def criar_tabelas(con):
                         status TEXT CHECK(status IN ('agendada', 'realizada', 'cancelada', 'remarcada')) NOT NULL
                     );
                     CREATE TABLE IF NOT EXISTS aula_aluno (
-                        aula_id INTEGER REFERENCES aulas(id) NOT NULL,
-                        aluno_id INTEGER REFERENCES alunos(id) NOT NULL,
+                        aula_id INTEGER NOT NULL REFERENCES aulas(id) ON DELETE CASCADE,
+                        aluno_id INTEGER NOT NULL REFERENCES alunos(id) ON DELETE CASCADE,
                         PRIMARY KEY (aula_id, aluno_id)
                     );
                     CREATE TABLE IF NOT EXISTS pagamentos (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        aluno_id INTEGER REFERENCES alunos(id) NOT NULL,
+                        aluno_id INTEGER NOT NULL REFERENCES alunos(id) ON DELETE CASCADE,
                         mes_referencia TEXT NOT NULL,
                         valor INTEGER NOT NULL,
                         data_pagamento TEXT,
