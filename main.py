@@ -1,4 +1,4 @@
-from db import connect_db, criar_tabelas
+from app.db import connect_db, criar_tabelas
 import cli
 
 if __name__ == "__main__":

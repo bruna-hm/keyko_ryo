@@ -1,7 +1,7 @@
-import alunos
-import aulas
-import pagamentos
-from utils import formatar_decimal
+from app.dados import alunos
+from app.dados import aulas
+from app.dados import pagamentos
+from app.utils import formatar_decimal
 
 def menu():
     while True:

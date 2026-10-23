@@ -15,3 +15,4 @@ Sistema de controle de aulas e pagamentos para artes marciais
 
 ## Status
 V1 concluída.
+Próximos passos: implementar framework web back end.

@@ -2,7 +2,7 @@ import traceback
 
 print("1. iniciando")
 try:
-    from db import connect_db
+    from app.db import connect_db
     print("2. import ok")
     conn = connect_db()
     print("3. conectou")
