@@ -4,7 +4,7 @@ from app.dados import alunos as alunos_dados
 
 router = APIRouter(prefix="/alunos", tags=["alunos"])
 
-def tupla_aluno(aluno): lambda: Aluno(id=aluno[0], nome=aluno[1], contato=aluno[2], ativo=aluno[3])
+def tupla_aluno(aluno): return Aluno(id=aluno[0], nome=aluno[1], contato=aluno[2], ativo=aluno[3])
 
 @router.get("/", response_model=list[Aluno])
 def listar_alunos():

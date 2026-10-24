@@ -42,7 +42,7 @@ def criar_tabelas(con):
                     );
                     CREATE TABLE IF NOT EXISTS usuarios (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        email TEXT NOT NULL UNIQUE,
+                        email TEXT NOT NULL COLLATE NOCASE UNIQUE,
                         senha_hash TEXT NOT NULL
                     );
                     """
