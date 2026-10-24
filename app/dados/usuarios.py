@@ -21,3 +21,12 @@ def buscar_usuario_por_email(email):
         return cursor.fetchone()
     finally:
         con.close()
+        
+def buscar_usuario_por_id(usuario_id):
+    con = connect_db()
+    try:
+        cursor = con.cursor()
+        cursor.execute("SELECT id, email, senha_hash FROM usuarios WHERE id = ?", (usuario_id,))
+        return cursor.fetchone()
+    finally:
+        con.close()
