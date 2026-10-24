@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 from typing import Literal
 
 class Aluno(BaseModel):
@@ -31,3 +31,11 @@ class AulaUpdate(BaseModel):
     data: str | None = None
     assunto: str | None = None
     status: Literal["agendada", "remarcada", "cancelada", "realizada"] | None = None
+    
+class Usuario(BaseModel):
+    id: int
+    email: EmailStr
+    
+class UsuarioCreate(BaseModel):
+    email: EmailStr
+    senha: str = Field(..., min_length=8, max_length=128)
