@@ -1,6 +1,13 @@
 from fastapi import FastAPI
 from app.routers import alunos as alunos_router
 from app.routers import auth as auth_router
+from app.db import connect_db, criar_tabelas
+
+con = connect_db()
+try:
+    criar_tabelas(con)
+finally:
+    con.close()
 
 app = FastAPI()
 
