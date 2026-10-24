@@ -39,3 +39,7 @@ class Usuario(BaseModel):
 class UsuarioCreate(BaseModel):
     email: EmailStr
     senha: str = Field(..., min_length=8, max_length=128)
+    
+class UsuarioToken(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
