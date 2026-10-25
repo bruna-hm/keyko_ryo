@@ -13,19 +13,19 @@ def listar_aulas(usuario = Depends(usuario_atual)):
     return [tupla_aula(aula) for aula in aulas_dados.listar_aulas(usuario[0])]
 
 @router.get("/{aula_id}", response_model=Aula)
-def obter_aula(aula_id : int, usuario = Depends(usuario_atual)):
+def obter_aula(aula_id: int, usuario = Depends(usuario_atual)):
     aula = aulas_dados.buscar_aula(aula_id, usuario[0])
     if not aula:
         raise HTTPException(status_code=404, detail="Aula não encontrada")
     return tupla_aula(aula)
 
 @router.post("/", response_model=Aula, status_code=201)
-def cadastrar_aula(aula : AulaCreate, usuario = Depends(usuario_atual)):
+def cadastrar_aula(aula: AulaCreate, usuario = Depends(usuario_atual)):
     aula_id = aulas_dados.cadastrar_aula(aula.data, aula.assunto, aula.status, usuario[0])
     return tupla_aula((aula_id, aula.data, aula.assunto, aula.status))
 
 @router.patch("/{aula_id}", response_model=Aula)
-def editar_aula(aula_id : int, dados: AulaUpdate, usuario = Depends(usuario_atual)):
+def editar_aula(aula_id: int, dados: AulaUpdate, usuario = Depends(usuario_atual)):
     usuario_id = usuario[0]
     aula = aulas_dados.buscar_aula(aula_id, usuario_id)
     if not aula:
@@ -45,7 +45,7 @@ def editar_aula(aula_id : int, dados: AulaUpdate, usuario = Depends(usuario_atua
     return tupla_aula(aula_editada)
 
 @router.delete("/{aula_id}", status_code=204)
-def excluir_aula(aula_id : int, usuario = Depends(usuario_atual)):
+def excluir_aula(aula_id: int, usuario = Depends(usuario_atual)):
     aula = aulas_dados.buscar_aula(aula_id, usuario[0])
     if not aula:
         raise HTTPException(status_code=404, detail="Aula não encontrada")
@@ -53,7 +53,7 @@ def excluir_aula(aula_id : int, usuario = Depends(usuario_atual)):
     return None
 
 @router.post("/{aula_id}/alunos/{aluno_id}", status_code=201)
-def vincular_aluno_aula(aula_id : int, aluno_id : int, usuario = Depends(usuario_atual)):
+def vincular_aluno_aula(aula_id: int, aluno_id : int, usuario = Depends(usuario_atual)):
     usuario_id = usuario[0]
     aula = aulas_dados.buscar_aula(aula_id, usuario_id)
     if aula is None:
