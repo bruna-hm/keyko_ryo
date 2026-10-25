@@ -1,65 +1,68 @@
+import sqlite3
 from app.db import connect_db
 
-def cadastrar_pagamento(aluno_id, mes_referencia, valor, data_pagamento, status):
+def cadastrar_pagamento(aluno_id, mes_referencia, valor, data_pagamento, status, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("INSERT INTO pagamentos (aluno_id, mes_referencia, valor, data_pagamento, status) VALUES (?, ?, ?, ?, ?)", (aluno_id, mes_referencia, valor, data_pagamento, status))
+        cursor.execute("INSERT INTO pagamentos (aluno_id, mes_referencia, valor, data_pagamento, status, usuario_id) VALUES (?, ?, ?, ?, ?, ?)", (aluno_id, mes_referencia, valor, data_pagamento, status, usuario_id,))
         con.commit()
         return cursor.lastrowid
+    except sqlite3.IntegrityError:
+        raise ValueError("Pagamento deste aluno já cadastrado neste mês")
     finally:
         con.close()
 
-def listar_pagamentos():
+def listar_pagamentos(aluno_id, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("SELECT * FROM pagamentos")
+        cursor.execute("SELECT id, aluno_id, mes_referencia, valor, data_pagamento, status FROM pagamentos WHERE aluno_id = ? AND usuario_id = ?", (aluno_id, usuario_id,))
         return cursor.fetchall()
     finally:
         con.close()
 
-def editar_pagamento(pagamento_id, aluno_id, mes_referencia, valor, data_pagamento, status):
+def buscar_pagamento(pagamento_id, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("UPDATE pagamentos SET aluno_id = ?, mes_referencia = ?, valor = ?, data_pagamento = ?, status = ? WHERE id = ?", (aluno_id, mes_referencia, valor, data_pagamento, status, pagamento_id))
-        con.commit()
+        cursor.execute("SELECT id, aluno_id, mes_referencia, valor, data_pagamento, status FROM pagamentos WHERE id = ? AND usuario_id = ?", (pagamento_id, usuario_id,))
+        return cursor.fetchone()
     finally:
         con.close()
 
-def excluir_pagamento(pagamento_id):
+def excluir_pagamento(pagamento_id, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("DELETE FROM pagamentos WHERE id = ?", (pagamento_id,))
+        cursor.execute("DELETE FROM pagamentos WHERE id = ? AND usuario_id = ?", (pagamento_id, usuario_id,))
         con.commit()
     finally:
         con.close()
         
-def editar_statuspgt(pagamento_id, status):
+def editar_statuspgt(pagamento_id, status, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("UPDATE pagamentos SET status = ? WHERE id = ?", (status, pagamento_id))
+        cursor.execute("UPDATE pagamentos SET status = ? WHERE id = ? AND usuario_id = ?", (status, pagamento_id, usuario_id,))
         con.commit()
     finally:
         con.close()
         
-def editar_datapgt(pagamento_id, data_pagamento):
+def editar_datapgt(pagamento_id, data_pagamento, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("UPDATE pagamentos SET data_pagamento = ? WHERE id = ?", (data_pagamento, pagamento_id))
+        cursor.execute("UPDATE pagamentos SET data_pagamento = ? WHERE id = ? AND usuario_id = ?",(data_pagamento, pagamento_id, usuario_id,))
         con.commit()
     finally:
         con.close()
 
-def editar_valor(pagamento_id, valor):
+def editar_valor(pagamento_id, valor, usuario_id):
     con = connect_db()
     try:
         cursor = con.cursor()
-        cursor.execute("UPDATE pagamentos SET valor = ? WHERE id = ?", (valor, pagamento_id))
+        cursor.execute("UPDATE pagamentos SET valor = ? WHERE id = ? AND usuario_id = ?", (valor, pagamento_id, usuario_id,))
         con.commit()
     finally:
         con.close()

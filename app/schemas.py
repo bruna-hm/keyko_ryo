@@ -31,7 +31,25 @@ class AulaUpdate(BaseModel):
     data: str | None = None
     assunto: str | None = None
     status: Literal["agendada", "remarcada", "cancelada", "realizada"] | None = None
-    
+
+class Pagamento(BaseModel):
+    id : int
+    aluno_id : int
+    mes_referencia : str
+    valor : int 
+    data_pagamento : str | None = None
+    status : Literal["pago", "pendente"]
+
+class PagamentoCreate(BaseModel):
+    aluno_id : int
+    mes_referencia : str = Field(pattern=r"^\d{4}-(0[1-9]|1[0-2])$")
+    valor : int = Field(gt=0)
+    data_pagamento : str | None = None
+    status : Literal["pago", "pendente"]
+class PagamentoUpdate(BaseModel):
+    valor : int | None = Field(default = None, gt=0) 
+    data_pagamento : str | None = None
+    status : Literal["pago", "pendente"] | None = None
 class Usuario(BaseModel):
     id: int
     email: EmailStr
